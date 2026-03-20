@@ -1,0 +1,37 @@
+[
+  {
+    "id": "portrait-chatgpt",
+    "category": "人物",
+    "source": "ChatGPT",
+    "input": "Prompt: A realistic portrait of a female scientist in a modern laboratory, soft rim lighting, shallow depth of field, professional editorial style. Negative prompt: blurry, watermark, extra fingers",
+    "expected_keywords": ["Main subject:", "Visual style:", "Composition:", "Color and lighting:", "Avoid:"]
+  },
+  {
+    "id": "landscape-midjourney",
+    "category": "风景",
+    "source": "DeepSeek/MJ风格",
+    "input": "cinematic landscape of alpine valley at sunrise, dramatic clouds, ultra detailed, low angle, warm tones --ar 16:9 --stylize 750 --v 6",
+    "expected_keywords": ["Main subject:", "Scene and context:", "Quality target:", "Output requirement:"]
+  },
+  {
+    "id": "abstract-qwen",
+    "category": "抽象",
+    "source": "通义千问",
+    "input": "【提示词】Abstract digital art with flowing geometric particles, vibrant color gradients, symmetrical composition, futuristic mood, 8k",
+    "expected_keywords": ["Main subject:", "Visual style:", "Composition:", "Color and lighting:"]
+  },
+  {
+    "id": "scientific-diagram",
+    "category": "科研示意",
+    "source": "ChatGPT",
+    "input": "{\"prompt\":\"scientific diagram showing cell division process with clear stage transitions, flat design, high readability, labeled arrows\",\"negative_prompt\":\"messy layout, illegible text\"}",
+    "expected_keywords": ["scientific diagram style", "publication-ready", "Avoid:"]
+  },
+  {
+    "id": "stable-diffusion",
+    "category": "人物",
+    "source": "Stable Diffusion格式",
+    "input": "((Best quality)), (masterpiece), portrait of a violinist on stage, cinematic lighting, blue and orange, (detailed face:1.3)\nNegative prompt: lowres, bad anatomy\nSteps: 30, CFG scale: 7, Sampler: DPM++",
+    "expected_keywords": ["Quality target:", "Color and lighting:", "Avoid:"]
+  }
+]
