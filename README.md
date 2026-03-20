@@ -44,13 +44,13 @@ paperbanana-prompt-converter
 
 ## 输入示例
 
-```text
+```markdown
 cinematic landscape of alpine valley at sunrise, dramatic clouds, ultra detailed, low angle, warm tones --ar 16:9 --stylize 750 --v 6
 ```
 
 ## 输出示例
 
-```text
+```markdown
 Main subject: cinematic landscape of alpine valley at sunrise; Scene and context: dramatic clouds; Visual style: cinematic composition with strong storytelling; Composition: low-angle perspective for visual impact; Color and lighting: warm color temperature with soft highlights; Quality target: fine-grained texture and structure; Output requirement: clear structure, no watermark, no random text artifacts
 ```
 
