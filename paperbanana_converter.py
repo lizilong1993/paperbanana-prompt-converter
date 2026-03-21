@@ -46,6 +46,46 @@ COLOR_MAP = {
     "cool tones": "cool color temperature with clean atmosphere",
 }
 
+STYLE_MAP_ACADEMIC = {
+    "scientific diagram": "scientific diagram style, clear labels, high readability, publication-ready",
+    "flowchart": "methodology flowchart, flat schematic, sequential phases with numbered steps",
+    "architecture diagram": "architecture schematic, flat layered diagram, labeled modules",
+    "conceptual illustration": "conceptual schematic, abstract relationship diagram, clean visual metaphor",
+    "concept map": "concept map, node-link diagram, hierarchical relationship visualization",
+    "data visualization": "data visualization, clean axis labels, statistical plot style",
+    "process diagram": "process diagram, stage-transition arrows, annotated phases",
+    "schematic": "schematic diagram, technical illustration style, publication-ready",
+    "infographic": "academic infographic, flat vector, strong visual hierarchy",
+    "network graph": "network graph, node-edge schematic, labeled topology",
+    "methodology figure": "methodology figure, flat design, sequential workflow with decision nodes",
+}
+
+COMPOSITION_MAP_ACADEMIC = {
+    "left-to-right flow": "horizontal left-to-right data flow with directional arrows",
+    "top-down": "top-down hierarchical decomposition",
+    "matrix layout": "matrix layout with dual-axis, x temporal and y semantic depth",
+    "layered": "layered architecture with labeled depths and clear boundaries",
+    "radial": "radial arrangement with central node and peripheral elements",
+    "grid": "grid layout with aligned cells and consistent spacing",
+    "timeline": "horizontal timeline with labeled milestones and connecting arrows",
+}
+
+COLOR_MAP_ACADEMIC = {
+    "blue-orange": "two-tone academic palette: cool blue for input/process, warm orange for output/result",
+    "grayscale": "grayscale academic palette, high contrast suitable for print publication",
+    "viridis": "viridis color scale, perceptually uniform and colorblind-safe",
+    "cool tones": "cool academic palette in blue-gray tones, clean and restrained",
+    "highlight accent": "accent color in gold or amber for key nodes or highlight boxes",
+    "sequential": "sequential color gradient from light to dark indicating progression or intensity",
+}
+
+AVOID_TERMS = [
+    "3D crystal spheres", "glossy buttons", "decorative arcs",
+    "outdated bevel effects", "heavy shadows", "glossy fills",
+    "artistic distortion", "random text artifacts",
+    "photo-realistic texture", "decorative icons",
+]
+
 MJ_FLAG_PATTERN = re.compile(r"--[a-zA-Z0-9:_\-.]+(?:\s+[a-zA-Z0-9:.\-]+)?")
 WEIGHT_PATTERN = re.compile(r"\(([^()]+):\s*([0-9.]+)\)")
 PAREN_BOOST_PATTERN = re.compile(r"\(\(([^()]+)\)\)")
@@ -128,19 +168,22 @@ class PaperBananaPromptConverter:
     def extract_keywords(self, prompt: str) -> Dict[str, List[str]]:
         low = prompt.lower()
         styles = [v for k, v in STYLE_MAP.items() if k in low]
+        styles_academic = [v for k, v in STYLE_MAP_ACADEMIC.items() if k in low]
         quality = [v for k, v in QUALITY_MAP.items() if k in low]
         composition = [v for k, v in COMPOSITION_MAP.items() if k in low]
+        composition_academic = [v for k, v in COMPOSITION_MAP_ACADEMIC.items() if k in low]
         colors = [v for k, v in COLOR_MAP.items() if k in low]
+        colors_academic = [v for k, v in COLOR_MAP_ACADEMIC.items() if k in low]
         entities = []
         chunks = [c.strip() for c in re.split(r"[,.;\n]", prompt) if c.strip()]
         for c in chunks:
             if len(c.split()) >= 3 and len(entities) < 6:
                 entities.append(c)
         return {
-            "style": styles[:3],
+            "style": (styles + styles_academic)[:3],
             "quality": quality[:3],
-            "composition": composition[:3],
-            "color": colors[:3],
+            "composition": (composition + composition_academic)[:3],
+            "color": (colors + colors_academic)[:3],
             "entities": entities[:4],
         }
 
@@ -163,7 +206,9 @@ class PaperBananaPromptConverter:
             cleaned_negative = self.normalize_prompt(negative)
             if cleaned_negative:
                 parts.append(f"Avoid: {cleaned_negative}")
-        parts.append("Output requirement: clear structure, no watermark, no random text artifacts")
+        parts.append(f"Output requirement: clear structure, no watermark, no random text artifacts, clean background suitable for publication")
+        avoid_str = ", ".join(AVOID_TERMS)
+        parts.append(f"Avoid decorative elements: {avoid_str}")
         return "; ".join(parts)
 
     def validate_prompt(self, converted_prompt: str) -> Dict[str, Any]:
